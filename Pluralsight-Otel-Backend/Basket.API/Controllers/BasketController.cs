@@ -16,15 +16,17 @@ namespace Basket.API.Controllers
     {
         private readonly ICatalogService _catalogService;
         private readonly IBus _bus;
+        private readonly ILogger<BasketController> _logger;
 
         //Important: The name of the Activity should be the same as the name of the Source added in the Web API startup AddOpenTelemetryTracing Builder
         private static readonly ActivitySource Activity = new("APITracing");
         private static readonly TextMapPropagator Propagator = Propagators.DefaultTextMapPropagator;
 
-        public BasketController(ICatalogService catalogService, IBus bus)
+        public BasketController(ICatalogService catalogService, IBus bus, ILogger<BasketController> logger)
         {
             _catalogService = catalogService;
             _bus = bus;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -38,6 +40,8 @@ namespace Basket.API.Controllers
         [Route("checkout")]
         public async Task<IActionResult> Checkout([FromBody] commonModels.Basket basket)
         {
+            _logger.LogInformation($"Checkout - RabbitMq Publish - BasketId={basket.BasketId}");
+            
             using (var activity = Activity.StartActivity("RabbitMq Publish", ActivityKind.Producer))
             {
                 var basicProperties = _bus.GetBasicProperties();
@@ -78,7 +82,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(ex, "Failed to inject trace context");
+                _logger.LogError(ex, "Failed to inject trace context");
             }
         }
     }

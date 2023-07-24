@@ -4,6 +4,11 @@ receivers:
       grpc:
       http:
 
+processors:
+  batch:
+    timeout: 15s
+    send_batch_size: 10
+
 exporters:
   prometheus:
     endpoint: otel:8889
@@ -23,15 +28,18 @@ extensions:
      endpoint: otel:13133
 
 service:
-  extensions: [zpages,health_check]  # Enable zpages
+  extensions: [zpages, health_check]  # Enable zpages
   pipelines:
     metrics:
       receivers: [otlp]
+      processors: [batch]
       exporters: [prometheus]
     traces:
       receivers: [otlp]
+      processors: [batch]
       exporters: [otlp] 
     logs:
       receivers: [otlp]
+      processors: [batch]
       exporters: [loki] 
            
