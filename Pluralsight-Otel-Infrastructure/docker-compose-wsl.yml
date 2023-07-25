@@ -7,7 +7,6 @@ services:
     ports:
       - 9115:9115
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
     command: --config.file=/etc/blackbox/blackbox.yml
     networks:
@@ -22,9 +21,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/prometheus:/prometheus
     depends_on:
       - blackbox
     networks:
@@ -36,9 +33,7 @@ services:
     container_name: tempo
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/tempo/tempo.yml:/etc/tempo.yaml
-      - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/tempo:/tmp/tempo
     restart: unless-stopped
     ports:
       - 3200:3200  # tempo
@@ -54,9 +49,7 @@ services:
     container_name: loki
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
-      - /etc/localtime:/etc/localtime:ro      
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/loki/loki.yml:/etc/loki/local-config.yaml
-      - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/loki:/data/loki
     restart: unless-stopped
     ports:
       - 3100:3100
@@ -74,7 +67,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/grafana/grafana.ini:/etc/grafana/grafana.ini
-      - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/grafana/data:/var/lib/grafana
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
     user: root
