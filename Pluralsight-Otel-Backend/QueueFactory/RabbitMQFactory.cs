@@ -12,7 +12,13 @@ public class RabbitMQFactory
 
     public static IBus CreateBus(string hostName)
     {
-        _factory = new ConnectionFactory() { HostName = hostName, DispatchConsumersAsync = true };
+        _factory = new ConnectionFactory()
+        {
+            HostName = hostName, 
+            DispatchConsumersAsync = true, 
+            UserName = "user", 
+            Password = "bitnami"
+        };
         _connection = _factory.CreateConnection();
         _channel = _connection.CreateModel();
 

@@ -106,13 +106,15 @@ services:
       otel:
       
   rabbitmq:
-    # https://github.com/docker-library/rabbitmq
-    image: rabbitmq:3.11.0-management-alpine
-    container_name: rabbitmq
-    restart: unless-stopped
+    image: "bitnami/rabbitmq:latest"
+    container_name: 'rabbitmq'
+    hostname: pubsubqueue
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_USERNAME=user
+      - RABBITMQ_PASSWORD=bitnami
     networks:
       otel:
 
