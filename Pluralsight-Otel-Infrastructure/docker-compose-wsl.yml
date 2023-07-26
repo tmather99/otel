@@ -65,7 +65,6 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/grafana/grafana.ini:/etc/grafana/grafana.ini
       - /mnt/c/github/otel/Pluralsight-Otel-Infrastructure/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
