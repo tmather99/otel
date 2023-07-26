@@ -11,3 +11,6 @@
 
 * Catalog API: http://localhost:6001/health
 * Basket API: http://localhost:6002/health
+
+* https://localhost:7002/swagger/index.html
+* https://localhost:7001/swagger/index.html
