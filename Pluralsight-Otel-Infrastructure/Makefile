@@ -3,10 +3,14 @@ clean:
 	docker volume prune -f
 
 up:
-	docker compose -f ./docker-compose-wsl.yml up
+	docker compose -f ./docker-compose.yml up
 
 down:
+	docker compose -f ./docker-compose.yml down
+
+up-wsl:
+	docker compose -f ./docker-compose-wsl.yml up
+
+down-wsl:
 	docker compose -f ./docker-compose-wsl.yml down
 
-dotnet-build:
-	cd ./Pluralsight-Otel-Backend && dotnet build --project ./Basket.API/Basket.API.csproj
